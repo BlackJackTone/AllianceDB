@@ -1,5 +1,5 @@
 //
-// Created by James Nolan on 18/8/21.
+// Created by Wang Chenyu on 18/8/21.
 //
 
 #include "hsj_helper.h"
@@ -23,6 +23,8 @@ public:
 
     void enqueue(int element);
 
+    int peek();
+
     int get_size() const;
 
     bool isEmpty() const;
@@ -32,6 +34,9 @@ public:
 
 HSJ_Queue::HSJ_Queue(int capacity):capacity(capacity){
     array = new int[size];
+    first_element = 0;
+    last_element = -1;
+    size = 0;
 }
 
 HSJ_Queue::~HSJ_Queue() {
@@ -39,13 +44,24 @@ HSJ_Queue::~HSJ_Queue() {
 }
 
 void HSJ_Queue::dequeue() {
-
+    if (isEmpty()) return;
+    first_element = (first_element + 1) % capacity;
     this->size--;
 }
 
-void HSJ_Queue::enqueue(int element) {
-
+void HSJ_Queue::enqueue(int item) {
+    if (isFull()) {
+        this->dequeue();
+        this->enqueue(item);
+    }
+    last_element = (last_element + 1) % capacity;
+    array[last_element] = item;
     this->size++;
+}
+
+int HSJ_Queue::peek() {
+    if (isEmpty()) return -1;
+    return array[first_element];
 }
 
 int HSJ_Queue::get_size() const {
