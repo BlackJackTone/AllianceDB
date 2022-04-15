@@ -800,12 +800,11 @@ thread_test=1
 if [ $APP_BENCH == 1 ]; then
   NORMAL
   benchmark=Rovio
-  # algo=SHJ_JBCR_NP
   algo=SHJ_JM_NP
   compile=1
   id=39
   SAMPLE_OFF
-  # NO HARDWARE NO SAMPLE
+  # # NO HARDWARE NO SAMPLE
   gp='0-0'
   ResetParameters
   Threads=1
@@ -833,12 +832,12 @@ if [ $APP_BENCH == 1 ]; then
 
   set_avx_rand=0
   set_always_probe=1
-
   SAMPLE_WITH_PARA
   ResetParameters
   Threads=1
   SetRovioParameters
   RUNALL
+
   # NO MULTICORE SAMPLE 0.5
   gp='0-3'
   
@@ -879,6 +878,119 @@ if [ $APP_BENCH == 1 ]; then
   RUNALL
   # MULTICORE SAMPLE 0.9
   gp='0-5'
+  epsl_r=0.9
+  epsl_s=0.9
+
+  eg_smp=0
+  lz_smp=1
+  mem_lim=1
+  prb_hsh=1
+  res_strata=1
+
+  set_avx_rand=0
+  set_always_probe=1
+  SAMPLE_WITH_PARA
+  ResetParameters
+  Threads=2
+  SetRovioParameters
+  RUNALL
+  # NO MULTICORE SAMPLE 0.5
+  gp='0-6'
+  
+  epsl_r=0.5
+  epsl_s=0.5
+
+  eg_smp=0
+  lz_smp=1
+  mem_lim=1
+  prb_hsh=1
+  res_strata=1
+
+  set_avx_rand=0
+  set_always_probe=1
+  SAMPLE_WITH_PARA
+  ResetParameters
+  Threads=2
+  SetRovioParameters
+  RUNALL
+  # NO MULTICORE SAMPLE 0.1
+  gp='0-7'
+  
+  epsl_r=0.1
+  epsl_s=0.1
+
+  eg_smp=0
+  lz_smp=1
+  mem_lim=1
+  prb_hsh=1
+  res_strata=1
+
+  set_avx_rand=0
+  set_always_probe=1
+  SAMPLE_WITH_PARA
+  ResetParameters
+  Threads=2
+  SetRovioParameters
+  RUNALL
+  # MULTICORE SAMPLE 0.9
+  gp='0-8'
+  
+  epsl_r=0.9
+  epsl_s=0.9
+
+  eg_smp=0
+  lz_smp=1
+  mem_lim=1
+  prb_hsh=1
+  res_strata=1
+
+  set_avx_rand=0
+  set_always_probe=1
+  SAMPLE_WITH_PARA
+  ResetParameters
+  Threads=4
+  SetRovioParameters
+  RUNALL
+  # MULTICORE SAMPLE 0.5
+  gp='0-9'
+  
+  epsl_r=0.5
+  epsl_s=0.5
+
+  eg_smp=0
+  lz_smp=1
+  mem_lim=1
+  prb_hsh=1
+  res_strata=1
+
+  set_avx_rand=0
+  set_always_probe=1
+  SAMPLE_WITH_PARA
+  Threads=4
+  SetRovioParameters
+  RUNALL
+  # MULTICORE SAMPLE 0.1
+  gp='0-10'
+  
+  epsl_r=0.1
+  epsl_s=0.1
+
+  eg_smp=0
+  lz_smp=1
+  mem_lim=1
+  prb_hsh=1
+  res_strata=1
+
+  set_avx_rand=0
+  set_always_probe=1
+  SAMPLE_WITH_PARA
+  ResetParameters
+  Threads=4
+  SetRovioParameters
+  RUNALL
+
+  # MULTICORE SAMPLE 0.9
+  gp='0-11'
   
   epsl_r=0.9
   epsl_s=0.9
@@ -897,7 +1009,7 @@ if [ $APP_BENCH == 1 ]; then
   SetRovioParameters
   RUNALL
   # MULTICORE SAMPLE 0.5
-  gp='0-6'
+  gp='0-12'
   
   epsl_r=0.5
   epsl_s=0.5
@@ -915,7 +1027,7 @@ if [ $APP_BENCH == 1 ]; then
   SetRovioParameters
   RUNALL
   # MULTICORE SAMPLE 0.1
-  gp='0-7'
+  gp='0-13'
   
   epsl_r=0.1
   epsl_s=0.1
