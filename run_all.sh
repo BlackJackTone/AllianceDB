@@ -88,8 +88,8 @@ sudo sysctl kernel.perf_event_paranoid=-1
 sudo modprobe msr
 
 # execute experiment
-# cd ./sorting/scripts || exit
-# bash benchmark.sh -e $exp_secction -d $exp_dir -c $L3_cache_size
-# cd - || exit
+cd ./sorting/scripts || exit
+bash benchmark.sh -e $exp_secction -d $exp_dir -c $L3_cache_size
+cd - || exit
 cd ./hashing/scripts || exit
 bash benchmark.sh -e $exp_secction -d $exp_dir -c $L3_cache_size
