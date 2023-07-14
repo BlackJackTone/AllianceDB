@@ -1,6 +1,6 @@
-# ASSMJoin
+# Bi-Probe
 
-We implement the 14 algorithms in ASSMJoin and other approaches for comparison here.
+We implement Bi-Probe and other approaches for comparison here.
 The experimental environment is shown in the table below.
 
 |Component | Description |
@@ -12,9 +12,9 @@ The experimental environment is shown in the table below.
 |OS | Linux 5.11.0 |
 |Compiler | g++ -O3 |
 
-For the datasets, you can fetch them at [https://anonymous.4open.science/r/DatasetofASSMJoin-8089/](https://anonymous.4open.science/r/DatasetofASSMJoin-8089/).
+For the datasets, you can fetch them at [https://anonymous.4open.science/r/BiProbeRealWorldData-CA52](https://anonymous.4open.science/r/BiProbeRealWorldData-CA52).
 
-To run the code, please firstly determine the experiment directory (denoted by `exp_dir`) and L3 cache size in `./run_all.sh` as well as the mapping of your intel cpu in `./cpu-mapping.txt`. Note that the directory of dataset should match the experiment directory you set.
+To run the code, please first determine the experiment directory (denoted by `exp_dir`) and L3 cache size in `./run_all.sh` as well as the mapping of your intel cpu in `./cpu-mapping.txt`. Note that the directory of the datasets should match the experiment directory you set.
 
 With the code and datasets, you can reproduce all the experiment results in our article.
-The intermeidiate results are in `${exp_dir}/results/breakdown`. Most files' name obey the form of `${phase}_${workload}_${algorithm}_profile_${group}_${id}.txt`, and you can check their human readable contents. Due to heavily repeat experiments for high quality measurement and intensive compiling, it may take weeks to produce all the results.
+The intermediate results are in `${exp_dir}/results/breakdown`. Most files' names obey the form of `${phase}_${workload}_${algorithm}_profile_${group}_${id}.txt`, and you can check their human-readable contents. Due to heavily repeated experiments for high-quality measurement and intensive compiling, it may take weeks to produce all the results, and you can manually shrink the test group size for a quicker check.
