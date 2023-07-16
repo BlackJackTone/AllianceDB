@@ -33,6 +33,8 @@ fi
 echo "$exp_dir"
 echo "$L3_cache_size"
 
+<<COMMENT
+
 # update in case some package can be missing.
 sudo apt update
 
@@ -73,14 +75,11 @@ mkdir -p $exp_dir/results/gaps
 mkdir -p $exp_dir/results/latency
 mkdir -p $exp_dir/results/records
 mkdir -p $exp_dir/results/timestamps
-
+COMMENT
 # copy custom pmu events to experiment dir.
 cp pcm* $exp_dir
 # copy cpu mappings to exp_dir
 cp cpu-mapping.txt $exp_dir
-# set all scripts exp dir
-
-sed -i -e "s/exp_dir = .*/exp_dir = "\"${exp_dir//\//\\/}\""/g" ./hashing/scripts/*.py
 
 exp_secction="APP_BENCH,MICRO_BENCH,SCALE_STUDY,PROFILE_MICRO,PROFILE,PROFILE_MEMORY_CONSUMPTION,PROFILE_PMU_COUNTERS"
 
@@ -88,8 +87,8 @@ sudo sysctl kernel.perf_event_paranoid=-1
 sudo modprobe msr
 
 # execute experiment
-cd ./sorting/scripts || exit
-bash benchmark.sh -e $exp_secction -d $exp_dir -c $L3_cache_size
-cd - || exit
 cd ./hashing/scripts || exit
 bash benchmark.sh -e $exp_secction -d $exp_dir -c $L3_cache_size
+
+# cd ./sorting/scripts || exit
+# bash benchmark.sh -e $exp_secction -d $exp_dir -c $L3_cache_size

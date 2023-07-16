@@ -382,6 +382,8 @@ param_t defaultParam() {/* Command line parameters */
     // SAMPLE
     cmd_params.epsilon_r = 0.1;
     cmd_params.epsilon_s = 0.1;
+    cmd_params.data_utilization_r = 0;
+    cmd_params.data_utilization_s = 0;
     cmd_params.Universal_p = 0.003;
     cmd_params.Bernoulli_q = 0.003;
     cmd_params.reservior_size = 1000;
@@ -432,10 +434,10 @@ print_help(char *progname) {
 
 void
 print_version() {
-    MSG("\n%s\n", PACKAGE_STRING);
-    MSG("Copyright (c) 2012, 2013, ETH Zurich, Systems Group.\n");
-    MSG("http://www.systems.ethz.ch/projects/paralleljoins\n\n");
-    MSG("Modified 2019, Shuhao Zhang (Tony) and Yancan Mao, TU Berlin, NUS. \n");
+    // MSG("\n%s\n", PACKAGE_STRING);
+    // MSG("Copyright (c) 2012, 2013, ETH Zurich, Systems Group.\n");
+    // MSG("http://www.systems.ethz.ch/projects/paralleljoins\n\n");
+    // MSG("Modified 2019, Shuhao Zhang (Tony) and Yancan Mao, TU Berlin, NUS. \n");
 }
 
 static char *
@@ -512,13 +514,15 @@ parse_args(int argc, char **argv, param_t *cmd_params) {
                         {"rand_buffer_size", required_argument, 0,               'b'},
                         {"presample_size",   required_argument, 0,               'A'},
                         {"group_id",         required_argument, 0,               'H'},
+                        {"data_utilization_r",   required_argument, 0,               'X'},
+                        {"data_utilization_s",         required_argument, 0,               'Y'},
                         {0, 0,                                  0,               0}
 
                 };
         /* getopt_long stores the option index here. */
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "J:K:L:M:t:w:e:q:l:I:d:Z:D:g:G:B:W:a:n:p:r:s:o:x:y:z:R:S:H:hv[:]:P:U:Q:E:F:O:b:A",
+        c = getopt_long(argc, argv, "J:K:L:M:t:w:e:q:l:I:d:Z:D:g:G:B:W:a:n:p:r:s:o:x:y:z:R:S:H:hv[:]:P:U:Q:E:F:X:Y:O:b:A",
                         long_options, &option_index);
 
         /* Detect the end of the options. */
@@ -696,6 +700,12 @@ parse_args(int argc, char **argv, param_t *cmd_params) {
                 break;
             case 'F':
                 cmd_params->epsilon_s = atof(mystrdup(optarg));
+                break;
+            case 'X':
+                cmd_params->data_utilization_r = atof(mystrdup(optarg));
+                break;
+            case 'Y':
+                cmd_params->data_utilization_s = atof(mystrdup(optarg));
                 break;
             case 'U':
                 cmd_params->Universal_p = atof(mystrdup(optarg));

@@ -5,6 +5,7 @@
 #include "benchmark.h"
 #include "joins/prj_params.h"
 #include "utils/generator.h"
+// #include "helper/localjoiner.h"
 #include <unistd.h>
 #include <sys/resource.h>
 
@@ -13,7 +14,12 @@
  * Here we put 3 cache lines.
  */
 
-#define NO_MARTERIAL_SAMPLE
+#define MATERIAL_SAMPLE
+#define UBS_MATERIAL_SAMPLE
+#define NO_UNISAMPLE_MATERIAL_SAMPLE
+#define NO_TWO_LEVEL_MATERIAL_SAMPLE
+#define NO_LAZY_SET_PR
+#define PRINT_SAMPLING_PARA
 
 #define SMALL_PADDING_TUPLES (3 * CACHE_LINE_SIZE/sizeof(tuple_t))
 #define PADDING_TUPLES (SMALL_PADDING_TUPLES*(FANOUT_PASS2+1))
@@ -24,6 +30,9 @@
 #define RAND_RANGE48(N, STATE) ((double)nrand48(STATE)/((double)RAND_MAX+1)*(N))
 #define MALLOC(SZ) alloc_aligned(SZ+RELATION_PADDING) /*malloc(SZ+RELATION_PADDING)*/
 #define FREE(X, SZ) free(X)
+
+double *hash_p_list;
+long long *thread_res_list;
 
 int check_avx() {
     unsigned int eax, ebx, ecx, edx;
@@ -173,7 +182,7 @@ uint32_t rand4sample(int &que_head, uint32_t *&rand_que)
 }
 
 
-void setSampleParam(relation_t *relR, relation_t *relS, double epsilon_r, double epsilon_s, double &identical_Universal_p)
+void setUBSSampleParam(relation_t *relR, relation_t *relS, double epsilon_r, double epsilon_s, double &identical_Universal_p)
 {
     std::map<intkey_t, int> hist[2];
     long long gm[3][3];
@@ -200,16 +209,122 @@ void setSampleParam(relation_t *relR, relation_t *relS, double epsilon_r, double
         gm[2][1] += 1ll*tt*tt;
         gm[2][2] += 2ll*tmp*tt*tt + 1ll*tt*tt;
     }
-    double p = (gm[2][2]*epsilon_r*epsilon_s - gm[2][1] - gm[1][2])/gm[1][1] + 1;
+    double p = ((gm[2][2] - gm[2][1] - gm[1][2])/gm[1][1] + 1)*epsilon_r*epsilon_s;
     p = sqrt(p);
     p = max(p, epsilon_r);
     p = max(p, epsilon_s);
     p = min(1.0, p);
     identical_Universal_p = p;
+
+    // MSG("[INFO ] gm[2][2]%lld gm[1][1]%lld.", gm[2][2], gm[1][1]);
+    
+    
+    MSG("[INFO ] ubs p=%lf.", p);
     // cout << epsilon_r <<" " << epsilon_s << endl;
     // cout << identical_Universal_p << endl;
     // fflush(stdout);
 }
+
+double two_level_sigma_1(double q, double a, double b)
+{
+    return (1/(q*q)-1)*(a-1)*(b-1)+(1/q-1)*((b-1)*(a*a - a + 1) + (a-1)*(b*b - b + 1));
+}
+
+double two_level_element_q_func(double q, double a, double b)
+{
+    return (two_level_sigma_1(q,a,b) + a*a*b*b)*(2+ q*(a+b-2));
+}
+
+double two_level_element_p_func(double q, double a, double b)
+{
+    return (two_level_sigma_1(q,a,b) + a*a*b*b)/(2+ q*(a+b-2));
+}
+
+double two_level_q_func(double q, std::map<intkey_t, int> &a,  std::map<intkey_t, int> &b)
+{
+    double res = 0;
+    for (auto i : a)
+    {
+        if (b[i.first])
+        {
+            res += sqrt(two_level_element_q_func(q, i.second, b[i.first]));
+        }
+    }
+    return res;
+}
+
+void setTwoLevelSampleParam(relation_t *relR, relation_t *relS, double epsilon_r, double epsilon_s, std::map<intkey_t, double> &two_level_p_map, double &two_level_q)
+{
+    std::map<intkey_t, int> hist[2];
+    // long long gm[3][3];
+    // memset(gm, 0, sizeof(gm));
+    for (int i = 0; i < relR->num_tuples; ++i)
+    {
+        tuple_t tuple = relR->tuples[i];
+        int tmp = ((hist[0]))[tuple.key];
+        ((hist[0]))[tuple.key] = tmp + 1;
+    }
+    for (int i = 0; i < relS->num_tuples; ++i)
+    {
+        tuple_t tuple = relS->tuples[i];
+        int tmp = ((hist[1]))[tuple.key];
+        ((hist[1]))[tuple.key] = tmp + 1;
+    }
+
+    // deriving q
+
+    int batch_size = 10;
+    int epoch = 10;
+    double gap = (1-epsilon_r)/(batch_size);
+    double step = gap/2;
+    double heat = 0.5;
+
+    double q_list[10];
+    for (int i = 0 ; i < batch_size;++i)
+        q_list[i] = i * gap + epsilon_r + step;
+    while(epoch--)
+    {
+        step *= heat;
+        for (int i = 0; i < batch_size; ++i)
+        {
+            double tmp1 = two_level_q_func(q_list[i] + step, hist[0], hist[1]); double tmp2 = two_level_q_func(q_list[i], hist[0], hist[1]);
+            double tmp3 = two_level_q_func(q_list[i] - step, hist[0], hist[1]);
+            if (tmp1 < tmp2 && tmp1 < tmp3)
+                q_list[i] += step;
+            else if (tmp3 < tmp2 && tmp3 < tmp1)
+                q_list[i] -= step;
+        }
+    }
+
+    two_level_q = q_list[0];
+    for (int i = 1; i < batch_size; ++i)
+    {
+        if (two_level_q_func(q_list[i], hist[0], hist[1]) < two_level_q_func(two_level_q, hist[0], hist[1]))
+            two_level_q = q_list[i];
+    }
+
+    // deriving p_v
+    double sampling_size = 0;
+
+    for (auto i : hist[0])
+    {
+        if (!hist[1][i.first])
+            continue;
+        double tmp1 = two_level_p_map[i.first] = two_level_element_p_func(two_level_q, hist[0][i.first], hist[1][i.first]);
+
+        sampling_size += tmp1 * (2 + two_level_q * (hist[0][i.first] + hist[1][i.first] - 2));
+    }
+
+    double scaling_const = (relR->num_tuples + relS->num_tuples) * epsilon_r / sampling_size;
+
+    for (auto i : two_level_p_map)
+    {
+        two_level_p_map[i.first] = i.second * scaling_const;
+    }
+    // cerr << "Two Level parameter: the first p(" << two_level_p_map.begin()->second << ") q(" << two_level_q << ")" << endl;
+    // fprintf(stderr, " Two Level parameter: the first p(%lf), q(%lf)\n", two_level_p_map.begin()->second,  two_level_q);
+}
+
 
 void sampleRelation(relation_t *rel, relation_payload_t *relPl, const
                     param_t &cmd_params, double epsilon, double identical_Universal_p,
@@ -221,7 +336,7 @@ void sampleRelation(relation_t *rel, relation_payload_t *relPl, const
     uint32_t B, U;
     int cnt = 0;
 
-#ifdef SET_PR
+#ifdef LAZY_SET_PR
     B = Bernoulli_q * mod;
     U = Universal_p * mod;
     for (int i = 0; i < rel->num_tuples; ++i)
@@ -256,6 +371,69 @@ void sampleRelation(relation_t *rel, relation_payload_t *relPl, const
     if (rand_que != NULL)
         free(rand_que);
 }
+
+void TwoLevelsampleRelation(relation_t *rel, relation_payload_t *relPl, const
+                    param_t &cmd_params, double epsilon, int hash_a, int hash_b, std::map<intkey_t, double> &two_level_p_map, double &two_level_q)
+{
+    static int mod = 1e9+7;
+    int que_head = 0;
+    uint32_t *rand_que = NULL;
+    uint32_t B, U;
+    int cnt = 0;
+
+    B = two_level_q * mod;
+    // U = Universal_p * mod;
+    for (int i = 0; i < rel->num_tuples; ++i)
+    {
+      tuple_t tuple = rel->tuples[i];
+      intkey_t k = tuple.key;
+      if( !(rand4sample(que_head, rand_que) >= B || (1ll*tuple.key*tuple.key%mod*hash_a%mod + hash_b)%mod >= (two_level_p_map[k] * mod) ) )
+      {
+        rel->tuples[cnt] = tuple;
+        rel->payload->ts[cnt] = rel->payload->ts[i];
+        cnt ++;
+      }
+    }
+
+    // cerr << Bernoulli_q <<" "<< identical_Universal_p << endl;
+    // cerr << rel->num_tuples << " "<<cnt << endl;
+    rel->num_tuples = rel->payload->num_tuples = cnt;
+    // cerr << cnt << endl;
+    if (rand_que != NULL)
+        free(rand_que);
+}
+
+
+void UnisampleRelation(relation_t *rel, relation_payload_t *relPl, const
+                    param_t &cmd_params, double epsilon, int hash_a, int hash_b)
+{
+    static int mod = 1e9+7;
+    int que_head = 0;
+    uint32_t *rand_que = NULL;
+    uint32_t B, U;
+    int cnt = 0;
+
+    B = epsilon * mod;
+
+    for (int i = 0; i < rel->num_tuples; ++i)
+    {
+      tuple_t tuple = rel->tuples[i];
+      if( !(rand4sample(que_head, rand_que) >= B))
+      {
+        rel->tuples[cnt] = tuple;
+        rel->payload->ts[cnt] = rel->payload->ts[i];
+        cnt ++;
+      }
+
+    }
+    // cerr << Bernoulli_q <<" "<< identical_Universal_p << endl;
+    // cerr << rel->num_tuples << " "<<cnt << endl;
+    rel->num_tuples = rel->payload->num_tuples = cnt;
+    // cerr << cnt << endl;
+    if (rand_que != NULL)
+        free(rand_que);
+}
+
 
 void *
 memory_calculator_thread(void *args) {
@@ -326,7 +504,7 @@ benchmark(const param_t cmd_params) {
     createRelation(&relS, relS.payload, cmd_params.skey, cmd_params.sts, cmd_params, cmd_params.loadfileS,
                    cmd_params.s_seed, cmd_params.step_sizeS, cmd_params.nthreads);
 
-#ifdef MARTERIAL_SAMPLE
+#ifdef MATERIAL_SAMPLE
 /*
 
     double epsilon_r;
@@ -342,15 +520,34 @@ benchmark(const param_t cmd_params) {
   srand(time(NULL));
   hash_a = rand();
   hash_b = rand();
-  setSampleParam(&relR, &relS, cmd_params.epsilon_r, cmd_params.epsilon_s, identical_Universal_p);
-  
-  // std::cout << "\n\n\n\n\n\n\n\n SET PARAM DONE \n\n\n\n\n\n\n\n\n";
-  // fflush(stdout);
 
+#ifdef UBS_MATERIAL_SAMPLE
+#ifdef LAZY_SET_PR
+#else
+  setUBSSampleParam(&relR, &relS, cmd_params.epsilon_r, cmd_params.epsilon_s, identical_Universal_p);
+#endif
   sampleRelation(&relR, relR.payload, cmd_params, cmd_params.epsilon_r, identical_Universal_p, cmd_params.Universal_p,
                  cmd_params.Bernoulli_q, hash_a, hash_b);
   sampleRelation(&relS, relS.payload, cmd_params, cmd_params.epsilon_s, identical_Universal_p, cmd_params.Universal_p,
                  cmd_params.Bernoulli_q, hash_a, hash_b);
+#endif
+
+#ifdef TWO_LEVEL_MATERIAL_SAMPLE
+  std::map<intkey_t, double> two_level_p_map;
+  double two_level_q;
+  setTwoLevelSampleParam(&relR, &relS, cmd_params.epsilon_r, cmd_params.epsilon_s, two_level_p_map, two_level_q);
+  TwoLevelsampleRelation(&relR, relR.payload, cmd_params, cmd_params.epsilon_r, hash_a, hash_b, two_level_p_map, two_level_q);
+  TwoLevelsampleRelation(&relS, relS.payload, cmd_params, cmd_params.epsilon_s, hash_a, hash_b, two_level_p_map, two_level_q);
+#endif
+
+#ifdef UNISAMPLE_MATERIAL_SAMPLE 
+  UnisampleRelation(&relR, relR.payload, cmd_params, cmd_params.epsilon_r, hash_a, hash_b);
+  UnisampleRelation(&relS, relS.payload, cmd_params, cmd_params.epsilon_s, hash_a, hash_b);
+#endif
+  
+  // std::cout << "\n\n\n\n\n\n\n\n SET PARAM DONE \n\n\n\n\n\n\n\n\n";
+  // fflush(stdout);
+
 
 #endif
 
@@ -394,10 +591,23 @@ benchmark(const param_t cmd_params) {
     //    }
     //    fflush(stdout);
 
+    // for estimator information recording
+    hash_p_list = new double[nthreads];
+    thread_res_list = new long long[nthreads];
+
+
     if (cmd_params.ts == 0)
         results = cmd_params.algo->joinAlgo(&relR, &relS, cmd_params);//no window to wait.
     else
         results = cmd_params.algo->joinAlgo(&relR, &relS, cmd_params);
+
+#ifdef PRINT_SAMPLING_PARA
+    for (int i = 0; i < nthreads; ++i)
+    {    
+        MSG("[INFO ] p_list[%d]=%lf.", i, hash_p_list[i]);
+        MSG("[INFO ] join_res_list[%d]=%lld.", i, thread_res_list[i]);
+    }
+#endif
 
     MSG("[INFO ] Results = %ld. DONE.", results->totalresults);
 

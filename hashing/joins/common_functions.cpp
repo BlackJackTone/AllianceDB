@@ -82,6 +82,7 @@ allocate_hashtable(hashtable_t **ppht, uint32_t nbuckets) {
     uint32_t mod = int(1e9)+7;
     ht->Universal_p = (mod*0.3);
     ht->Bernoulli_q = int(mod*0.333);
+    ht->Data_utilization = 0;
     ht->Epsilon_d = 0.1;
     ht->Epsilon = int(mod*ht->Epsilon_d);
     // ht->gm[1][1] = ht->gm[2][2] = ht->gm[2][1] = ht->gm[1][2] = 0;

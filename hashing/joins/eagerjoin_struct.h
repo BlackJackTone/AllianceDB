@@ -68,6 +68,8 @@ struct t_param {
     // SAMPLE
     double epsilon_r;
     double epsilon_s;
+    double data_utilization_r;
+    double data_utilization_s;
     double Universal_p;
     double Bernoulli_q;
     int reservior_size;

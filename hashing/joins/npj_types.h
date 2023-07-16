@@ -18,7 +18,7 @@
 
 #define PRESAMPLING_SIZE 1000
 #define RANDOM_BUFFER_SIZE 1000
-#define RESERVOIR_SIZE 6250
+#define RESERVOIR_SIZE 7184
 #define RESERVOIR_STRATA_NUM 2
 
 #define PROB_BUFF 2
@@ -81,6 +81,7 @@ struct hashtable_t {
     std::unordered_map<intkey_t, int> *pre_smp;
     uint32_t Bernoulli_q;
     uint32_t Universal_p;
+    uint32_t Data_utilization;
     uint32_t Epsilon;
     double Epsilon_d;
     int32_t cnt = 0;

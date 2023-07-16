@@ -12,7 +12,7 @@
 #include "../timer/t_timer.h"
 
 // path of experiment dir, all results will dump to here.
-#define EXP_DIR "/home/tangxilin/S-AllianceDB/data1/xtra"
+#define EXP_DIR "/home/tangxilin/xxx/data1/xtra"
 
 //#define DEBUG
 //#define JOIN_RESULT_MATERIALIZE

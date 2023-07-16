@@ -69,9 +69,15 @@ launch(int nthreads, relation_t *relR, relation_t *relS, t_param param, void *(*
 
         param.args[i].joiner->epsilon_r = param.epsilon_r;
         param.args[i].joiner->epsilon_s = param.epsilon_s;
+        param.args[i].joiner->data_utilization_r = param.data_utilization_r;
+        param.args[i].joiner->data_utilization_s = param.data_utilization_s;
         param.args[i].joiner->Epsilon = param.epsilon_r*mod;
         param.args[i].joiner->Bernoulli_q = param.Bernoulli_q*mod;
         param.args[i].joiner->Universal_p = param.Universal_p*mod;
+        if (typeid(* param.args[i].joiner) == typeid(SHJJoiner))
+        {
+            dynamic_cast<SHJJoiner*>(param.args[i].joiner)->hash_key_p = param.Universal_p;
+        }
         param.args[i].joiner->reservior_size = param.reservior_size;
         param.args[i].joiner->rand_buffer_size = param.rand_buffer_size;
         param.args[i].joiner->presample_size = param.presample_size;
@@ -84,6 +90,7 @@ launch(int nthreads, relation_t *relR, relation_t *relS, t_param param, void *(*
         param.args[i].joiner->count_pre = 0;
         // div_prmtr = 100;
         param.args[i].joiner->hash_a = rand()%mod;
+        srand(time(NULL));
         while(param.args[i].joiner->hash_a < 1000) 
             param.args[i].joiner->hash_a = rand()%mod;
         param.args[i].joiner->hash_b = rand()%mod;
@@ -116,7 +123,6 @@ launch(int nthreads, relation_t *relR, relation_t *relS, t_param param, void *(*
                                                               param.args[i].joiner->timer);
                 break;
         }
-
         rv = pthread_create(&param.tid[i], param.attr, thread_fun, (void *) &param.args[i]);
         if (rv) {
             MSG("ERROR; return code from pthread_create() is %d\n", rv);

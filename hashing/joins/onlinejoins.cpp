@@ -52,6 +52,11 @@ t_param &finishing(int nthreads, t_param &param, uint64_t *startTS, param_t *cmd
     for (i = 0; i < nthreads; i++) {
         /* sum up results */
         param.result += *param.args[i].matches;
+        if(param.algo_name == "SHJ_JBCR_NP" || param.algo_name == "SHJ_JM_NP")
+        {
+            hash_p_list[i] = dynamic_cast<SHJJoiner*>(param.args[i].joiner)->hash_key_p;
+            thread_res_list[i] = *param.args[i].matches;
+        }
 #ifndef NO_TIMING
         merge(param.args[i].timer, param.args[i].fetcher->relR, param.args[i].fetcher->relS, startTS, 0);
 #endif
@@ -137,6 +142,9 @@ SHJ_st(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -189,6 +197,9 @@ SHJ_JM_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -218,6 +229,9 @@ SHJ_JM_P(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -248,6 +262,9 @@ SHJ_JB_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -278,6 +295,9 @@ SHJ_JBCR_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -288,7 +308,9 @@ SHJ_JBCR_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
     uint64_t *startTS = new uint64_t();
     auto joinStart = (uint64_t) 0;
     LAUNCH(nthreads, relR, relS, param, THREAD_TASK_SHUFFLE, startTS, &joinStart)
+printf("\n\nsuccessfully launched\n\n");
     param = finishing(nthreads, param, startTS, &cmd_params);
+printf("\n\nsuccessfully joined\n\n");
     return param.joinresult;
 }
 
@@ -308,6 +330,9 @@ SHJ_JBCR_P(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -339,6 +364,9 @@ SHJ_HS_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -360,6 +388,9 @@ PMJ_st(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -407,6 +438,9 @@ RPJ_st(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -452,6 +486,9 @@ result_t *PMJ_JM_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -484,6 +521,9 @@ result_t *PMJ_JM_P(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -516,6 +556,9 @@ result_t *PMJ_JB_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -549,6 +592,9 @@ result_t *PMJ_JB_P(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -582,6 +628,9 @@ result_t *PMJ_JBCR_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -613,6 +662,9 @@ result_t *PMJ_JBCR_P(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -645,6 +697,9 @@ result_t *PMJ_HS_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -676,6 +731,9 @@ RPJ_JM_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -706,6 +764,9 @@ RPJ_JB_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -736,6 +797,9 @@ RPJ_JBCR_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;
@@ -765,6 +829,9 @@ result_t *RPJ_HS_NP(relation_t *relR, relation_t *relS, param_t cmd_params) {
 // SAMPLE
     param.epsilon_r = cmd_params.epsilon_r;
     param.epsilon_s = cmd_params.epsilon_s;
+    param.data_utilization_r = cmd_params.data_utilization_r;
+    param.data_utilization_s = cmd_params.data_utilization_s;
+    
     param.Universal_p = cmd_params.Universal_p;
     param.Bernoulli_q = cmd_params.Bernoulli_q;
     param.reservior_size = cmd_params.reservior_size;

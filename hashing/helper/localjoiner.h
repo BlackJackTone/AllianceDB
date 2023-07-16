@@ -16,8 +16,9 @@
 #include <list>
 #include <queue>
 
-#define SAMPLE_ON
+#define NO_SAMPLE_ON
 #define NO_SET_PR
+#define NO_CORRECTION_P
 #define NO_ALWAYS_PROBE
 #define PRESAMPLE
 #define AVX_RAND
@@ -57,6 +58,8 @@ public:
     double Epsilon_d;
     double epsilon_r;
     double epsilon_s;
+    double data_utilization_r;
+    double data_utilization_s;
     int reservior_size;
     int rand_buffer_size;
     int presample_size;
@@ -197,7 +200,7 @@ public:
 
 class PrioQueMember{
 public:
-    unsigned int est;
+    double est;
     tuple_t tuple;
 
     PrioQueMember(unsigned int _est, tuple_t _tuple) : est(_est), tuple(_tuple){}
@@ -242,6 +245,9 @@ private:
     tuple_t prb_buf[PROB_BUFF];
 #endif
 public:
+    
+    int sizeR, sizeS;
+    double hash_key_p;
     virtual ~SHJJoiner();
 
     SHJJoiner(int sizeR, int sizeS);

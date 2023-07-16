@@ -112,76 +112,76 @@ function compile() {
 
 function Run() {
   #####native execution
-  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -n $Threads=="
+  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -n $Threads=="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
-  ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -r $RSIZE -s $SSIZE -n $Threads
+  ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -r $RSIZE -s $SSIZE -n $Threads
 }
 
 function benchmarkRun() {
   #####native execution
-  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
+  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
-  ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt  
+  ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt  
   if [[ $? -eq 139 ]]; then echo "oops, sigsegv" exit -1; fi
 }
 
 function benchmarkProfileRun() {
   #####native execution
-  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
+  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
   if [ ! -z "$PERF_CONF" -a "$PERF_CONF"!=" " ]; then
-    ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt -p $PERF_CONF > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt 
+    ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt -p $PERF_CONF > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt 
   else
-    ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt
+    ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt
   fi
   if [[ $? -eq 139 ]]; then echo "oops, sigsegv" exit -1; fi
 }
 
 function perfUarchBenchmarkRun() {
   #####native execution
-  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
+  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
   if [ ! -z "$PERF_OUTPUT" -a "$PERF_OUTPUT"!=" " ]; then
     perf stat -x, -a -e CPU_CLK_UNHALTED.THREAD,IDQ_UOPS_NOT_DELIVERED.CORE,UOPS_ISSUED.ANY,UOPS_RETIRED.RETIRE_SLOTS,INT_MISC.RECOVERY_CYCLES,CYCLE_ACTIVITY.STALLS_MEM_ANY,RESOURCE_STALLS.SB -o $PERF_OUTPUT \
-    ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap
+    ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap
   else
     perf stat -e CPU_CLK_UNHALTED.THREAD,IDQ_UOPS_NOT_DELIVERED.CORE,UOPS_ISSUED.ANY,UOPS_RETIRED.RETIRE_SLOTS,INT_MISC.RECOVERY_CYCLES,CYCLE_ACTIVITY.STALLS_MEM_ANY,RESOURCE_STALLS.SB \
-    ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap
+    ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap
   fi
   if [[ $? -eq 139 ]]; then echo "oops, sigsegv" exit -1; fi
 }
 
 function perfUtilBenchmarkRun() {
   #####native execution
-  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/perf_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
+  echo "==benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap -o $exp_dir/results/breakdown/perf_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt =="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
-  perf stat -I10 -x, -o $exp_dir/results/breakdown/perf_${gp}_${id}.csv -e cache-misses,cycles ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap
+  perf stat -I10 -x, -o $exp_dir/results/breakdown/perf_${gp}_${id}.csv -e cache-misses,cycles ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -r $RSIZE -s $SSIZE -R $RPATH -S $SPATH -J $RKEY -K $SKEY -L $RTS -M $STS -n $Threads -B 1 -t 1 -I $id -H $gp -[ $progress_step -] $merge_step -G $group -g $gap
   if [[ $? -eq 139 ]]; then echo "oops, sigsegv" exit -1; fi
 }
 
 function KimRun() {
   #####native execution
-  echo "==KIM benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt  =="
+  echo "==KIM benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt  =="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
-  ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt  
+  ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt  
   if [[ $? -eq 139 ]]; then echo "oops, sigsegv" exit -1; fi
 }
 
 function KimProfileRun() {
   #####native execution
-  echo "==KIM benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap =="
+  echo "==KIM benchmark:$benchmark -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap =="
   #echo 3 >/proc/sys/vm/drop_caches
   sudo sysctl vm.drop_caches=3
   if [ ! -z "$PERF_CONF" -a "$PERF_CONF"!=" " ]; then
-    ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt -p $PERF_CONF > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt
+    ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt -p $PERF_CONF > ${exp_dir}/results/breakdown/${phase}_${benchmark}_${algo}_profile_${gp}_${id}.txt
   else
-    ../hashing -a $algo -E $epsl_r -F $epsl_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt
+    ../hashing -a $algo -E $epsl_r -F $epsl_s -X $data_u_r -Y  $data_u_s -U $univ -Q $bern -t $ts -w $WINDOW_SIZE -e $STEP_SIZE -q $STEP_SIZE_S -l $INTERVAL -d $distrbution -z $skew -D $TS_DISTRIBUTION -Z $ZIPF_FACTOR -n $Threads -I $id -H $gp -W $FIXS -[ $progress_step -] $merge_step -G $group -P $DD -g $gap -o $exp_dir/results/breakdown/profile_${gp}_${id}.txt
   fi
   if [[ $? -eq 139 ]]; then echo "oops, sigsegv" exit -1; fi
 }
@@ -432,14 +432,29 @@ function RUNALLMic() {
   fi
 }
 
-function SetStockParameters() { #matches: 1635926294. #inputs= 1013800 + 1034443
+function SetStockParameters() { #matches: 148475672. #inputs= 1013800 + 1034443
   ts=1 # stream case
-  TOTAL_JOIN=1635926294
+  TOTAL_JOIN=148475672
   WINDOW_SIZE=1000
   RSIZE=1013800
   SSIZE=1034443
   RPATH=$exp_dir/datasets/NDP/Sep_85.txt
   SPATH=$exp_dir/datasets/NDP/Sep_86.txt
+  RKEY=0
+  SKEY=0
+  RTS=1
+  STS=1
+  gap=15595
+}
+
+function SetStockParametersLazy() { #matches: 148475672. #inputs= 1013800 + 1034443
+  ts=1 # stream case
+  TOTAL_JOIN=148475672
+  WINDOW_SIZE=0
+  RSIZE=1013800
+  SSIZE=1034443
+  RPATH=$exp_dir/datasets/NDP/Sep_85.txt.o
+  SPATH=$exp_dir/datasets/NDP/Sep_86.txt.o
   RKEY=0
   SKEY=0
   RTS=1
@@ -462,6 +477,36 @@ function SetRovioParameters() { #matches: 87856849382 #inputs= 2873604 + 2873604
   gap=87856849
 }
 
+function SetRovioParametersLazy() { #matches: 87856849382 #inputs= 2873604 + 2873604
+  ts=1 # stream case
+  WINDOW_SIZE=0
+  TOTAL_JOIN=87856849382
+  RSIZE=2873604
+  SSIZE=2873604
+  RPATH=$exp_dir/datasets/rovio/1000ms_1t.txt.o
+  SPATH=$exp_dir/datasets/rovio/1000ms_1t.txt.o
+  RKEY=0
+  SKEY=0
+  RTS=3
+  STS=3
+  gap=87856849
+}
+
+function SetYSBParameters() { #matches: 10000000. #inputs= 1000 + 10000000
+  ts=1 # stream case
+  WINDOW_SIZE=1000
+  TOTAL_JOIN=10000000
+  RSIZE=1000
+  SSIZE=10000000
+  RPATH=$exp_dir/datasets/YSB/campaigns_id.txt
+  SPATH=$exp_dir/datasets/YSB/ad_events.txt
+  # epsl_r=1
+  RKEY=0
+  SKEY=0
+  RTS=0
+  STS=1
+  gap=10000
+}
 
 function SetDEBSParameters() { #matches: 251033140 #inputs= 1000000 + 1000000
   ts=1 # stream case
@@ -476,6 +521,10 @@ function SetDEBSParameters() { #matches: 251033140 #inputs= 1000000 + 1000000
   RTS=0
   STS=0
   gap=251033
+}
+
+function SetDEBSParametersLazy() { #matches: 251033140 #inputs= 1000000 + 1000000
+  SetDEBSParameters
 }
 
 DEFAULT_WINDOW_SIZE=1000 #(ms) -- 1 seconds
@@ -503,1352 +552,7 @@ function ResetParameters() {
   sed -i -e "s/NUM_RADIX_BITS [[:alnum:]]*/NUM_RADIX_BITS 8/g" ../joins/prj_params.h
 }
 
-#compile once by default.
-compile
-# Configurable variables
-# Generate a timestamp
-timestamp=$(date +%Y%m%d-%H%M)
-output=test$timestamp.txt
-
-
-# sed -i -e "s/#define NO_SET_PR/#define SET_PR/g" ../helper/localjoiner.h
-# sed -i -e "s/#define NO_SAMPLE_ON/#define SAMPLE_ON/g" ../helper/localjoiner.h
-# sed -i -e "s/#define NO_ALWAYS_PROBE/#define ALWAYS_PROBE/g" ../helper/localjoiner.h
-# sed -i -e "s/#define NO_PRESAMPLE/#define PRESAMPLE/g" ../helper/localjoiner.h
-# sed -i -e "s/#define NO_AVX_RAND/#define AVX_RAND/g" ../helper/localjoiner.h
-# sed -i -e "s/#define NO_MEM_LIM/#define MEM_LIM/g" ../helper/localjoiner.h
-
-
-
-sed -i -e "s/#define SET_PR/#define NO_SET_PR/g" ../helper/localjoiner.h
-sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
-sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
-sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
-sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
-sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
-sed -i -e "s/#define MARTERIAL_SAMPLE/#define NO_MARTERIAL_SAMPLE/g" ../benchmark.cpp
-
-
-function IF_ALWAYS_PROBE()
-{
-  if [ $set_always_probe == 0 ]; then
-    sed -i -e "s/#define NO_ALWAYS_PROBE/#define ALWAYS_PROBE/g" ../helper/localjoiner.h
-  fi
-  if [ $set_always_probe == 1 ]; then
-    sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
-  fi
-}
-set_always_probe=1
-mem_lim=1
-set_pr=1
-set_avx_rand=1
-
-
-function IF_SET_PR()
-{
-  if [ $set_pr == 0 ]; then
-    sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
-  fi
-  if [ $set_pr == 1 ]; then
-    sed -i -e "s/#define NO_PRESAMPLE/#define PRESAMPLE/g" ../helper/localjoiner.h
-  fi
-}
-
-function IF_AVX_RAND() {
-  if [ $set_avx_rand == 0 ]; then
-    sed -i -e "s/#define NO_AVX_RAND/#define AVX_RAND/g" ../helper/localjoiner.h
-  fi
-  if [ $set_avx_rand == 1 ]; then
-    sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
-  fi
-}
-
-function APPROXIMATE_OFF() {
-  sed -i -e "s/#define SET_PR/#define NO_SET_PR/g" ../helper/localjoiner.h
-  sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
-  sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
-  sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
-  sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
-  sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
-  sed -i -e "s/#define MARTERIAL_SAMPLE/#define NO_MARTERIAL_SAMPLE/g" ../benchmark.cpp
-  sed -i -e "s/#define Prior/#define NO_Prior/g" ../helper/localjoiner.h
-
-}
-
-function SAMPLE_OFF() {
-  sed -i -e "s/#define SET_PR/#define NO_SET_PR/g" ../helper/localjoiner.h
-  sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
-  sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
-  sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
-  sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
-  sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
-  sed -i -e "s/#define MARTERIAL_SAMPLE/#define NO_MARTERIAL_SAMPLE/g" ../benchmark.cpp
-  sed -i -e "s/#define Prior/#define NO_Prior/g" ../helper/localjoiner.h
-}
-
-function EAGER_SAMPLE() {
-  if [ $eg_smp == 0 ]; then
-    sed -i -e "s/#define NO_SAMPLE_ON/#define SAMPLE_ON/g" ../helper/localjoiner.h
-    sed -i -e "s/#define NO_PRESAMPLE/#define PRESAMPLE/g" ../helper/localjoiner.h
-  fi
-  if [ $eg_smp == 1 ]; then
-    sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
-    sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
-  fi
-}
-
-function LAZY_SAMPLE() {
-  if [ $lz_smp == 0 ]; then
-    SAMPLE_OFF
-    sed -i -e "s/#define NO_MARTERIAL_SAMPLE/#define MARTERIAL_SAMPLE/g" ../benchmark.cpp
-  fi
-  if [ $lz_smp == 1 ]; then
-    sed -i -e "s/#define MARTERIAL_SAMPLE/#define NO_MARTERIAL_SAMPLE/g" ../benchmark.cpp
-  fi
-}
-
-function MEM_LIM()
-{
-  if [ $mem_lim == 0 ]; then
-    sed -i -e "s/#define NO_MEM_LIM/#define MEM_LIM/g" ../helper/localjoiner.h
-  fi
-  if [ $mem_lim == 1 ]; then
-    sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
-  fi
-}
-
-function Prior() {
-  if [ $prb_hsh == 0 ]; then
-    SAMPLE_OFF
-    sed -i -e "s/#define NO_Prior/#define Prior/g" ../helper/localjoiner.h
-  fi
-  if [ $prb_hsh == 1 ]; then
-    sed -i -e "s/#define Prior/#define NO_Prior/g" ../helper/localjoiner.h
-  fi
-}
-
-function RESERVOIR_STRATA() {
-  if [ $res_strata == 0 ]; then
-    SAMPLE_OFF
-    sed -i -e "s/#define NO_RESERVOIR_STRATA/#define RESERVOIR_STRATA/g" ../helper/localjoiner.h
-  fi
-  if [ $res_strata == 1 ]; then
-    sed -i -e "s/#define RESERVOIR_STRATA/#define NO_RESERVOIR_STRATA/g" ../helper/localjoiner.h
-  fi
-}
-
-# function SET_RESERVOIR_SIZE() {
-#   sed -i -e "s/#define RESERVOIR_SIZE [[:alnum:]]*/#define RESERVOIR_SIZE $reservoir_size/g" ../joins/npj_types.h
-# }
-
-function SET_GAP_RESERV() {
-  reservoir_size=`python3 reservoir_size.py -e $epsl_r -r $RSIZE -s $SSIZE -n $Threads`
-  gap=`python3 gap_size.py -e $epsl_r -m $TOTAL_JOIN`
-  echo "\n\n\n\n\n\n"
-  echo $reservoir_size
-  echo $gap
-  sed -i -e "s/#define RESERVOIR_SIZE [[:alnum:]]*/#define RESERVOIR_SIZE $reservoir_size/g" ../joins/npj_types.h
-}
-
-function SET_RAND_BUFFER_SIZE() {
-  sed -i -e "s/#define RANDOM_BUFFER_SIZE [[:alnum:]]*/#define RANDOM_BUFFER_SIZE $rand_buffer_size/g" ../joins/npj_types.h
-}
-
-function SAMPLE_WITH_PARA() {
-  EAGER_SAMPLE
-  LAZY_SAMPLE
-  MEM_LIM
-  Prior
-  RESERVOIR_STRATA
-
-  IF_SET_PR
-  IF_AVX_RAND
-  IF_ALWAYS_PROBE
-}
-
-function RUN_SHJ (){
-  for profile_breakdown in 1; do
-    compile=1
-    for benchmark in "Stock" "Rovio" "DEBS"; do # "Stock" "Rovio" "DEBS"
-      # for algo in NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP; do # NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP
-      for algo in SHJ_JM_NP SHJ_JBCR_NP; do # NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP
-        case "$benchmark" in
-        "Stock")
-          id=38
-          ResetParameters
-          SetStockParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        "Rovio") #matches:
-          id=39
-          ResetParameters
-          SetRovioParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        "DEBS")
-          id=41
-          ResetParameters
-          SetDEBSParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        esac
-      done
-    done
-  done
-}
-
-function RUN_PMJ (){
-  for profile_breakdown in 1; do
-    compile=1
-    for benchmark in "Stock" "Rovio" "DEBS"; do # "Stock" "Rovio" "DEBS"
-      # for algo in NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP; do # NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP
-      for algo in PMJ_JM_NP PMJ_JBCR_NP; do # NPO PRO SHJ_JM_NP SHJ_JBCR_NP SHJ_JM_NP SHJ_JBCR_NP
-        case "$benchmark" in
-        "Stock")
-          id=38
-          ResetParameters
-          SetStockParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        "Rovio") #matches:
-          id=39
-          ResetParameters
-          SetRovioParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        "DEBS")
-          id=41
-          ResetParameters
-          SetDEBSParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        esac
-      done
-    done
-  done
-}
-
-function RUN_LAZY_HASH() {
-  for profile_breakdown in 1; do
-    compile=1
-    for benchmark in "Stock" "Rovio" "DEBS"; do # "Stock" "Rovio" "DEBS"
-      # for algo in NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP; do # NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP
-      for algo in NPO PRO; do # NPO PRO SHJ_JM_NP SHJ_JBCR_NP PMJ_JM_NP PMJ_JBCR_NP
-        case "$benchmark" in
-        "Stock")
-          id=38
-          ResetParameters
-          SetStockParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        "Rovio") #matches:
-          id=39
-          ResetParameters
-          SetRovioParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        "DEBS")
-          id=41
-          ResetParameters
-          SetDEBSParameters
-          SET_GAP_RESERV
-          SET_RAND_BUFFER_SIZE
-          RUNALL
-          ;;
-        esac
-      done
-    done
-  done
-}
-
-# prb_hsh=0
-# Prior
-
-
-phase='ALL_ON'
-
-
-###################    Observation
-
-epsl_r=1
-epsl_s=1
-univ=1
-bern=1
-set_pr=1
-rand_buffer_size=1000
-
-APPROXIMATE_OFF
-
-thread_test=1
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  benchmark=Rovio
-  algo=SHJ_JM_NP
-  compile=1
-  id=39
-  SAMPLE_OFF
-  # # NO HARDWARE NO SAMPLE
-  gp='0-0'
-  ResetParameters
-  Threads=1
-  SetRovioParameters
-  RUNALL
-
-  # MULTICORE NO SAMPLE
-  gp='0-1'
-  SAMPLE_OFF
-  ResetParameters
-  Threads=8
-  SetRovioParameters
-  RUNALL
-  # NO MULTICORE SAMPLE 0.9
-
-  gp='0-2'
-  epsl_r=0.9
-  epsl_s=0.9
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=1
-  SetRovioParameters
-  RUNALL
-
-  # NO MULTICORE SAMPLE 0.5
-  gp='0-3'
-  
-  epsl_r=0.5
-  epsl_s=0.5
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=1
-  SetRovioParameters
-  RUNALL
-  # NO MULTICORE SAMPLE 0.1
-  gp='0-4'
-  
-  epsl_r=0.1
-  epsl_s=0.1
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=1
-  SetRovioParameters
-  RUNALL
-  # MULTICORE SAMPLE 0.9
-  gp='0-5'
-  epsl_r=0.9
-  epsl_s=0.9
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=2
-  SetRovioParameters
-  RUNALL
-  # NO MULTICORE SAMPLE 0.5
-  gp='0-6'
-  
-  epsl_r=0.5
-  epsl_s=0.5
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=2
-  SetRovioParameters
-  RUNALL
-  # NO MULTICORE SAMPLE 0.1
-  gp='0-7'
-  
-  epsl_r=0.1
-  epsl_s=0.1
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=2
-  SetRovioParameters
-  RUNALL
-  # MULTICORE SAMPLE 0.9
-  gp='0-8'
-  
-  epsl_r=0.9
-  epsl_s=0.9
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=4
-  SetRovioParameters
-  RUNALL
-  # MULTICORE SAMPLE 0.5
-  gp='0-9'
-  
-  epsl_r=0.5
-  epsl_s=0.5
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  Threads=4
-  SetRovioParameters
-  RUNALL
-  # MULTICORE SAMPLE 0.1
-  gp='0-10'
-  
-  epsl_r=0.1
-  epsl_s=0.1
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=4
-  SetRovioParameters
-  RUNALL
-
-  # MULTICORE SAMPLE 0.9
-  gp='0-11'
-  
-  epsl_r=0.9
-  epsl_s=0.9
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=8
-  SetRovioParameters
-  RUNALL
-  # MULTICORE SAMPLE 0.5
-  gp='0-12'
-  
-  epsl_r=0.5
-  epsl_s=0.5
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  Threads=8
-  SetRovioParameters
-  RUNALL
-  # MULTICORE SAMPLE 0.1
-  gp='0-13'
-  
-  epsl_r=0.1
-  epsl_s=0.1
-
-  eg_smp=0
-  lz_smp=1
-  mem_lim=1
-  prb_hsh=1
-  res_strata=1
-
-  set_avx_rand=0
-  set_always_probe=1
-  SAMPLE_WITH_PARA
-  ResetParameters
-  Threads=8
-  SetRovioParameters
-  RUNALL
-fi
-
-########### NON-SAMPLING BASELINE
-
-gp=0
-
-APPROXIMATE_OFF
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  RUN_LAZY_HASH
-  RUN_SHJ
-  RUN_PMJ
-fi
-
-
-######### NON-MEM-LIMITED SAMPLING
-
-gp=1
-
-epsl_r=0.6
-epsl_s=0.6
-
-eg_smp=1
-lz_smp=0
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_LAZY_HASH
-fi
-
-# exit
-######### NON-MEM-LIMITED SAMPLE
-
-gp=1
-
-epsl_r=0.6
-epsl_s=0.6
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  RUN_PMJ
-fi
-
-########## Prior
-
-gp=2
-
-epsl_r=0.6
-epsl_s=0.6
-
-eg_smp=1
-lz_smp=1
-mem_lim=1
-prb_hsh=0
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-fi
-
-######### RSHJ
-
-gp=3
-
-epsl_r=0.6
-epsl_s=0.6
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-fi
-
-######### MIXIMUM DATA UTILIZATION
-
-gp=4
-
-epsl_r=0.6
-epsl_s=0.6
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-fi
-
-######### RSHJ MIXIMUM DATA UTILIZATION
-
-gp=5
-
-
-epsl_r=0.6
-epsl_s=0.6
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-if [ $APP_BENCH == 1 ]; then
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-fi
-
-
-#########################     impact of epsilon 
-
-# lazy epsilon
-
-gp=10
-
-eg_smp=1
-lz_smp=0
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_LAZY_HASH
-  let "gp++"
-done
-
-# eager epsilon
-
-gp=10
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  RUN_PMJ
-  let "gp++"
-done
-
-# reservoir epsilon
-
-gp=30
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  RUN_PMJ
-  let "gp++"
-done
-
-
-# Prior epsilon
-
-gp=1090
-
-eg_smp=1
-lz_smp=1
-mem_lim=1
-prb_hsh=0
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  RUN_PMJ
-  let "gp++"
-done
-
-# eager epsilon MIXIMUM DATA UTILIZATION
-
-gp=50
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  RUN_PMJ
-  let "gp++"
-done
-
-
-# reservoir MIXIMUM DATA UTILIZATION
-
-gp=70
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  RUN_PMJ
-  let "gp++"
-done
-
-
-
-# lazy trade off
-
-
-gp=21000
-
-eg_smp=1
-lz_smp=0
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_LAZY_HASH
-    let "gp++"
-  done
-done
-
-# eager trade off
-
-gp=21000
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_SHJ
-    RUN_PMJ
-    let "gp++"
-  done
-done
-
-# reservoir trade off
-
-# COMMENT
-
-gp=24000
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-# eager trade off MIXIMUM DATA UTILIZATION
-
-gp=26000
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-# reservoir MIXIMUM DATA UTILIZATION
-
-gp=28000
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-thread_test=1
-
-
-# PRIORI 
-gp=30000
-
-eg_smp=1
-lz_smp=1
-mem_lim=1
-prb_hsh=0
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-# StreamApprox
-
-gp=32000
-
-eg_smp=1
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=0
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for epsl in 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.05; do
-  epsl_r=$epsl
-  epsl_s=$epsl
-  for iii in {1..50}; do
-    NORMAL
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-# lazy AVX
-
-thread_test=1
-
-
-epsl_r=0.6
-epsl_s=0.6
-
-gp=3100
-
-eg_smp=1
-lz_smp=0
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_LAZY_HASH
-    let "gp++"
-  done
-done
-
-# eager AVX
-
-gp=3100
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    RUN_PMJ
-    let "gp++"
-  done
-done
-
-# reservoir AVX
-
-gp=3200
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-# Prior
-
-gp=3900
-
-eg_smp=1
-lz_smp=1
-mem_lim=1
-prb_hsh=0
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
-  for iii in {1..2}; do
-  NORMAL
-  #compile depends on whether we want to profile.
-  RUN_SHJ
-  let "gp++"
-  done
-done
-
-
-# eager MIXIMUM DATA UTILIZATION AVX
-
-gp=3300
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-# reservoir MIXIMUM DATA UTILIZATION AVX
-
-gp=3400
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-########################  MULTICORE
-
-thread_test=0
-
-
-
-
-epsl_r=0.6
-epsl_s=0.6
-
-gp=4100
-
-eg_smp=1
-lz_smp=0
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-
-for Threads in 1 2 4 8; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_LAZY_HASH
-    let "gp++"
-  done
-done
-
-# eager MULTICORE
-
-gp=4100
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-
-for Threads in 1 2 4 8; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    RUN_PMJ
-    let "gp++"
-  done
-done
-
-# reservoir MULTICORE
-
-gp=4200
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-
-for Threads in 1 2 4 8; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-# eager MIXIMUM DATA UTILIZATION MULTICORE
-
-thread_test=0
-
-epsl_r=0.5
-epsl_r=0.5
-bern=1
-univ=1
-
-gp=4300
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-
-for Threads in 1 2 4 8; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-
-# reservoir MIXIMUM DATA UTILIZATION MULTICORE
-
-gp=4400
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-
-for Threads in 1 2 4 8; do
-  for iii in {1..2}; do
-    NORMAL
-    #compile depends on whether we want to profile.
-    RUN_SHJ
-    let "gp++"
-  done
-done
-
-thread_test=1
-
-######################################### STREAM FEATURE
-
+# stream feature
 
 function STREAM_RUN_LAZY() {
   NORMAL
@@ -1899,8 +603,8 @@ function STREAM_RUN_SHJ() {
   profile_breakdown=1        # set to 1 if we want to measure time breakdown!
   compile=$profile_breakdown # compile depends on whether we want to profile.
   compile
-  for benchmark in "AR" "AD"; do #
-    for algo in SHJ_JM_NP SHJ_JBCR_NP; do
+  for benchmark in "AR"; do #  "AD"
+    for algo in SHJ_JM_NP; do
       case "$benchmark" in
       # Batch -a SHJ_JM_P -n 8 -t 1 -w 1000 -e 1000 -l 10 -d 0 -Z 1
       "AR") #test arrival rate and assume both inputs have same arrival rate.
@@ -1910,7 +614,7 @@ function STREAM_RUN_SHJ() {
         FIXS=0 #varying both.
         ts=1   # stream case
         # step size should be bigger than nthreads
-        for STEP_SIZE in 1600 3200 6400 12800 25600; do #128000
+        for STEP_SIZE in 200 400 800 1600 3200 6400 12800 25600 128000; do #128000
           #WINDOW_SIZE=$(expr $DEFAULT_WINDOW_SIZE \* $DEFAULT_STEP_SIZE / $STEP_SIZE) #ensure relation size is the same.
           echo relation size is $(expr $WINDOW_SIZE / $INTERVAL \* $STEP_SIZE)
           gap=$(($STEP_SIZE / 500 * $WINDOW_SIZE))
@@ -1986,9 +690,1308 @@ function STREAM_RUN_PMJ() {
 
 
 
+#compile once by default.
+compile
+# Configurable variables
+# Generate a timestamp
+timestamp=$(date +%Y%m%d-%H%M)
+output=test$timestamp.txt
+
+
+# sed -i -e "s/#define NO_SET_PR/#define SET_PR/g" ../helper/localjoiner.h
+# sed -i -e "s/#define NO_SAMPLE_ON/#define SAMPLE_ON/g" ../helper/localjoiner.h
+# sed -i -e "s/#define NO_ALWAYS_PROBE/#define ALWAYS_PROBE/g" ../helper/localjoiner.h
+# sed -i -e "s/#define NO_PRESAMPLE/#define PRESAMPLE/g" ../helper/localjoiner.h
+# sed -i -e "s/#define NO_AVX_RAND/#define AVX_RAND/g" ../helper/localjoiner.h
+# sed -i -e "s/#define NO_MEM_LIM/#define MEM_LIM/g" ../helper/localjoiner.h
+
+
+
+sed -i -e "s/#define SET_PR/#define NO_SET_PR/g" ../helper/localjoiner.h
+sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
+sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
+sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
+sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
+sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
+sed -i -e "s/#define MATERIAL_SAMPLE/#define NO_MATERIAL_SAMPLE/g" ../benchmark.cpp
+sed -i -e "s/#define UBS_MATERIAL_SAMPLE/#define NO_UBS_MATERIAL_SAMPLE/g" ../benchmark.cpp
+sed -i -e "s/#define UNISAMPLE_MATERIAL_SAMPLE/#define NO_UNISAMPLE_MATERIAL_SAMPLE/g" ../benchmark.cpp
+sed -i -e "s/#define TWO_LEVEL_MATERIAL_SAMPLE/#define NO_TWO_LEVEL_MATERIAL_SAMPLE/g" ../benchmark.cpp
+
+function IF_ALWAYS_PROBE()
+{
+  if [ $set_always_probe == 0 ]; then
+    sed -i -e "s/#define NO_ALWAYS_PROBE/#define ALWAYS_PROBE/g" ../helper/localjoiner.h
+  fi
+  if [ $set_always_probe == 1 ]; then
+    sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
+  fi
+}
+set_always_probe=1
+mem_lim=1
+set_pr=1
+set_avx_rand=1
+
+
+function IF_SET_PR()
+{
+  if [ $set_pr == 0 ]; then
+    sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
+  fi
+  if [ $set_pr == 1 ]; then
+    sed -i -e "s/#define NO_PRESAMPLE/#define PRESAMPLE/g" ../helper/localjoiner.h
+  fi
+}
+
+function IF_AVX_RAND() {
+  if [ $set_avx_rand == 0 ]; then
+    sed -i -e "s/#define NO_AVX_RAND/#define AVX_RAND/g" ../helper/localjoiner.h
+  fi
+  if [ $set_avx_rand == 1 ]; then
+    sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
+  fi
+}
+
+function IF_CORRECTION_P() {
+  if [ $set_correct_p == 0 ]; then
+    sed -i -e "s/#define NO_CORRECTION_P/#define CORRECTION_P/g" ../helper/localjoiner.h
+  fi
+  if [ $set_correct_p == 1 ]; then
+    sed -i -e "s/#define CORRECTION_P/#define NO_CORRECTION_P/g" ../helper/localjoiner.h
+  fi
+}
+
+function APPROXIMATE_OFF() {
+  sed -i -e "s/#define SET_PR/#define NO_SET_PR/g" ../helper/localjoiner.h
+  sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
+  sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
+  sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
+  sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
+  sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
+  sed -i -e "s/#define MATERIAL_SAMPLE/#define NO_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define UBS_MATERIAL_SAMPLE/#define NO_UBS_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define UNISAMPLE_MATERIAL_SAMPLE/#define NO_UNISAMPLE_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define TWO_LEVEL_MATERIAL_SAMPLE/#define NO_TWO_LEVEL_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define PROBEHASH/#define NO_PROBEHASH/g" ../helper/localjoiner.h
+
+}
+
+function SAMPLE_OFF() {
+  sed -i -e "s/#define SET_PR/#define NO_SET_PR/g" ../helper/localjoiner.h
+  sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
+  sed -i -e "s/#define ALWAYS_PROBE/#define NO_ALWAYS_PROBE/g" ../helper/localjoiner.h
+  sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
+  sed -i -e "s/#define AVX_RAND/#define NO_AVX_RAND/g" ../helper/localjoiner.h
+  sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
+  sed -i -e "s/#define MATERIAL_SAMPLE/#define NO_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define UBS_MATERIAL_SAMPLE/#define NO_UBS_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define UNISAMPLE_MATERIAL_SAMPLE/#define NO_UNISAMPLE_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define TWO_LEVEL_MATERIAL_SAMPLE/#define NO_TWO_LEVEL_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  sed -i -e "s/#define PROBEHASH/#define NO_PROBEHASH/g" ../helper/localjoiner.h
+}
+
+function EAGER_SAMPLE() {
+  if [ $eg_smp == 0 ]; then
+    sed -i -e "s/#define NO_SAMPLE_ON/#define SAMPLE_ON/g" ../helper/localjoiner.h
+    sed -i -e "s/#define NO_PRESAMPLE/#define PRESAMPLE/g" ../helper/localjoiner.h
+  fi
+  if [ $eg_smp == 1 ]; then
+    sed -i -e "s/#define SAMPLE_ON/#define NO_SAMPLE_ON/g" ../helper/localjoiner.h
+    sed -i -e "s/#define PRESAMPLE/#define NO_PRESAMPLE/g" ../helper/localjoiner.h
+  fi
+}
+
+function LAZY_SAMPLE() {
+  if [ $lz_smp == 0 ]; then
+    SAMPLE_OFF
+    sed -i -e "s/#define NO_MATERIAL_SAMPLE/#define MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+  if [ $lz_smp == 1 ]; then
+    sed -i -e "s/#define MATERIAL_SAMPLE/#define NO_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+}
+
+function UBS_LAZY_SAMPLE() {
+  if [ $ubs_lz_smp == 0 ]; then
+    sed -i -e "s/#define NO_UBS_MATERIAL_SAMPLE/#define UBS_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+  if [ $ubs_lz_smp == 1 ]; then
+    sed -i -e "s/#define UBS_MATERIAL_SAMPLE/#define NO_UBS_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+}
+
+
+function LAZY_SET_PR() {
+  if [ $lz_set_pr == 0 ]; then
+    sed -i -e "s/#define NO_LAZY_SET_PR/#define LAZY_SET_PR/g" ../benchmark.cpp
+  fi
+  if [ $lz_set_pr == 1 ]; then
+    sed -i -e "s/#define LAZY_SET_PR/#define NO_LAZY_SET_PR/g" ../benchmark.cpp
+  fi
+}
+
+function UNISAMPLE_LAZY_SAMPLE() {
+  if [ $uni_lz_smp == 0 ]; then
+    sed -i -e "s/#define NO_UNISAMPLE_MATERIAL_SAMPLE/#define UNISAMPLE_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+  if [ $uni_lz_smp == 1 ]; then
+    sed -i -e "s/#define UNISAMPLE_MATERIAL_SAMPLE/#define NO_UNISAMPLE_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+}
+
+function TWO_LEVEL_LAZY_SAMPLE() {
+  if [ $tw_lz_smp == 0 ]; then
+    sed -i -e "s/#define NO_TWO_LEVEL_MATERIAL_SAMPLE/#define TWO_LEVEL_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+  if [ $tw_lz_smp == 1 ]; then
+    sed -i -e "s/#define TWO_LEVEL_MATERIAL_SAMPLE/#define NO_TWO_LEVEL_MATERIAL_SAMPLE/g" ../benchmark.cpp
+  fi
+}
+
+function MEM_LIM()
+{
+  if [ $mem_lim == 0 ]; then
+    sed -i -e "s/#define NO_MEM_LIM/#define MEM_LIM/g" ../helper/localjoiner.h
+  fi
+  if [ $mem_lim == 1 ]; then
+    sed -i -e "s/#define MEM_LIM/#define NO_MEM_LIM/g" ../helper/localjoiner.h
+  fi
+}
+
+function PROBEHASH() {
+  if [ $prb_hsh == 0 ]; then
+    SAMPLE_OFF
+    sed -i -e "s/#define NO_PROBEHASH/#define PROBEHASH/g" ../helper/localjoiner.h
+  fi
+  if [ $prb_hsh == 1 ]; then
+    sed -i -e "s/#define PROBEHASH/#define NO_PROBEHASH/g" ../helper/localjoiner.h
+  fi
+}
+
+function RESERVOIR_STRATA() {
+  if [ $res_strata == 0 ]; then
+    SAMPLE_OFF
+    sed -i -e "s/#define NO_RESERVOIR_STRATA/#define RESERVOIR_STRATA/g" ../helper/localjoiner.h
+  fi
+  if [ $res_strata == 1 ]; then
+    sed -i -e "s/#define RESERVOIR_STRATA/#define NO_RESERVOIR_STRATA/g" ../helper/localjoiner.h
+  fi
+}
+
+# function SET_RESERVOIR_SIZE() {
+#   sed -i -e "s/#define RESERVOIR_SIZE [[:alnum:]]*/#define RESERVOIR_SIZE $reservoir_size/g" ../joins/npj_types.h
+# }
+
+function SET_GAP_RESERV() {
+  gap=`python3 gap_size.py -e $epsl_r -m $TOTAL_JOIN`
+  echo "\n\n\n\n\n\n"
+  echo $gap
+}
+
+function SET_RAND_BUFFER_SIZE() {
+  sed -i -e "s/#define RANDOM_BUFFER_SIZE [[:alnum:]]*/#define RANDOM_BUFFER_SIZE $rand_buffer_size/g" ../joins/npj_types.h
+}
+
+function SAMPLE_WITH_PARA() {
+  EAGER_SAMPLE
+  LAZY_SAMPLE
+  UNISAMPLE_LAZY_SAMPLE
+  TWO_LEVEL_LAZY_SAMPLE
+  UBS_LAZY_SAMPLE
+  LAZY_SET_PR
+  MEM_LIM
+  PROBEHASH
+  RESERVOIR_STRATA
+
+  IF_SET_PR
+  IF_CORRECTION_P
+  IF_AVX_RAND
+  IF_ALWAYS_PROBE
+}
+
+function RUN_SHJ (){
+  for profile_breakdown in 1; do
+    compile=1
+    for benchmark in "Stock" "Rovio" "DEBS"; do
+      
+      for algo in SHJ_JM_NP; do
+        case "$benchmark" in
+        "Stock")
+          id=38
+          ResetParameters
+          SetStockParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        "Rovio") #matches:
+          id=39
+          ResetParameters
+          SetRovioParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        "DEBS")
+          id=41
+          ResetParameters
+          SetDEBSParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        esac
+      done
+    done
+  done
+}
+
+function RUN_PMJ (){
+  for profile_breakdown in 1; do
+    compile=1
+    for benchmark in "Stock" "Rovio" "DEBS"; do
+      
+      for algo in PMJ_JM_NP PMJ_JBCR_NP; do
+        case "$benchmark" in
+        "Stock")
+          id=38
+          ResetParameters
+          SetStockParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        "Rovio") #matches:
+          id=39
+          ResetParameters
+          SetRovioParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        "DEBS")
+          id=41
+          ResetParameters
+          SetDEBSParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        esac
+      done
+    done
+  done
+}
+
+function RUN_LAZY_HASH() {
+  for profile_breakdown in 1; do
+    compile=1
+    for benchmark in "Stock" "Rovio" "DEBS"; do
+      
+      for algo in NPO PRO; do
+        case "$benchmark" in
+        "Stock")
+          id=38
+          ResetParameters
+          SetStockParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        "Rovio") #matches:
+          id=39
+          ResetParameters
+          SetRovioParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        "DEBS")
+          id=41
+          ResetParameters
+          SetDEBSParameters
+          SET_GAP_RESERV
+          SET_RAND_BUFFER_SIZE
+          RUNALL
+          ;;
+        esac
+      done
+    done
+  done
+}
+
+
+
+# PROBEHASH
+
+
+phase='ALL_ON'
+
+
+###################  
+
+set_correct_p=1
+epsl_r=1
+epsl_s=1
+ubs_lz_smp=1
+lz_set_pr=1
+tw_lz_smp=1
+uni_lz_smp=1
+lz_smp=1
+eg_smp=1
+data_u_r=0
+data_u_s=0
+univ=1
+bern=1
+set_pr=1
+rand_buffer_size=1000
+
+APPROXIMATE_OFF
+
+thread_test=1
+
+
+################# latency and output size test for large sampling rate
+
+
+### LAZY_SAMPLE
+
+#ubs_lazy
+
+gp=291000
+
+eg_smp=1
+lz_smp=0
+ubs_lz_smp=0
+lz_set_pr=1
+tw_lz_smp=1
+uni_lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+for epsl in 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+    bern=$epsl
+    univ=1
+    for iii in 1; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP ; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+  done
+done
+
+#uni_lazy
+
+gp=292000
+
+eg_smp=1
+lz_smp=0
+ubs_lz_smp=1
+lz_set_pr=1
+tw_lz_smp=1
+uni_lz_smp=0
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+for epsl in 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+    bern=$epsl
+    univ=1
+    for iii in 1; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP ; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+  done
+done
+
+
+
+## quikr_lazy
+
+gp=293000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=0
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+
+for epsl in 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+  bern=1
+  univ=$epsl
+    for iii in 1; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP ; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+  done
+done
+
+
+############# output size and variance test for small sampling rate
+
+
+### LAZY_SAMPLE
+
+#ubs_lazy
+
+gp=1910000
+
+eg_smp=1
+lz_smp=0
+ubs_lz_smp=0
+lz_set_pr=1
+tw_lz_smp=1
+uni_lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+for epsl in 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+    bern=$epsl
+    univ=1
+    for iii in {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+  done
+done
+
+#uni_lazy
+
+gp=1920000
+
+eg_smp=1
+lz_smp=0
+ubs_lz_smp=1
+lz_set_pr=1
+tw_lz_smp=1
+uni_lz_smp=0
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+for epsl in 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+    bern=$epsl
+    univ=1
+    for iii in {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+  done
+done
+
+
+
+## quikr_lazy
+
+gp=1930000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=0
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+
+for epsl in 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+  bern=1
+  univ=$epsl
+    for iii in {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParametersLazy
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+  done
+done
+
+
+############ test bi-probe variance small sampling rate
+### varying data utilization
+
+gp=1600000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+# 19
+for epsl in 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+# 17
+  for data_u in 0 0.01 0.02 0.03 0.04 0.05 0.08 0.09 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+    data_u_r=$data_u
+    data_u_s=$data_u
+    bern=$epsl
+    univ=1
+    for iii in  {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+    done
+  done
+done
+
+### with p correction
+
+gp=1700000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=0
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+# 19
+for epsl in 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+# 17
+  for data_u in 0 0.01 0.02 0.03 0.04 0.05 0.08 0.09 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+    data_u_r=$data_u
+    data_u_s=$data_u
+    bern=$epsl
+    univ=1
+    for iii in  {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+    done
+  done  
+done
+
+
+
+############ test bi-probe variance large sampling rate
+### varying data utilization
+
+gp=2600000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+
+SAMPLE_WITH_PARA
+
+# 14
+for epsl in 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+# for epsl in 0.4 0.5 0.6 0.7 0.8 0.9; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+# 15
+  for data_u in 0 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+    data_u_r=$data_u
+    data_u_s=$data_u
+    bern=$epsl
+    univ=1
+    for iii in  {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock"; do
+        # for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+    done
+  done  
+done
+
+
+############ different epsilon between R and S
+### varying data utilization
+
+
+gp=1100000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+# 19
+# for epsl in 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1; do
+for eps1 in 0.001 0.005 0.01 0.05 0.1 0.5; do
+for eps2 in 0.001 0.005 0.01 0.05 0.1 0.5; do
+# for epsl in 0.07 0.08 0.09 0.1; do
+  epsl_r=$eps1
+  epsl_s=$eps2
+# 17
+  for data_u in 0.01 0.05 0.1 0.5; do
+  for data_2u in 0.01 0.05 0.1 0.5; do
+    data_u_r=$data_u
+    data_u_s=$data_2u
+    bern=$epsl
+    univ=1
+    for iii in  {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP ; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+    done
+  done  
+  done
+done
+done
+
+
+### with p correction
+
+gp=1200000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=0
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+# 19
+for eps1 in 0.001 0.005 0.01 0.05 0.1 0.5; do
+for eps2 in 0.001 0.005 0.01 0.05 0.1 0.5; do
+# for epsl in 0.07 0.08 0.09 0.1; do
+  epsl_r=$eps1
+  epsl_s=$eps2
+# 17
+  for data_u in 0.01 0.05 0.1 0.5; do
+  for data_2u in 0.01 0.05 0.1 0.5; do
+    data_u_r=$data_u
+    data_u_s=$data_2u
+
+    bern=$epsl
+    univ=1
+    for iii in  {1..100}; do
+      NORMAL
+      for profile_breakdown in 1; do
+      compile=1
+        for benchmark in "Stock" "Rovio" "DEBS"; do
+          
+          for algo in SHJ_JM_NP ; do
+            case "$benchmark" in
+            "Stock")
+              id=38
+              ResetParameters
+              SetStockParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "Rovio") #matches:
+              id=39
+              ResetParameters
+              SetRovioParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            "DEBS")
+              id=41
+              ResetParameters
+              SetDEBSParameters
+              SET_GAP_RESERV
+              SET_RAND_BUFFER_SIZE
+              RUNALL
+              ;;
+            esac
+          done
+        done
+      done
+      let "gp++"
+    done
+  done  
+  done
+done
+done
+
+
+
+########### varying stream step
+
+gp=70000
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+# 14
+for epsl in 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+  epsl_r=$epsl
+  epsl_s=$epsl
+# 14
+  for data_u in 0 0.01 0.02 0.04 0.05 0.08 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9; do
+    data_u_r=$data_u
+    data_u_s=$data_u
+    bern=$epsl
+    univ=1
+    
+    STREAM_RUN_SHJ
+    
+    let "gp++"
+  done  
+done
+
+
+
+# lazy AVX
+
+thread_test=1
+
 
 epsl_r=0.6
 epsl_s=0.6
+data_u_r=0.6
+data_u_s=0.6
+
+gp=3100
+
+eg_smp=1
+lz_smp=0
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
+  for iii in {1..2}; do
+    NORMAL
+    #compile depends on whether we want to profile.
+    RUN_LAZY_HASH
+    let "gp++"
+  done
+done
+
+# eager AVX
+
+gp=3100
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+for rand_buffer_size in 10 33 66 100 333 666 1000 3333 6666 10000 33333 66666 100000; do
+  for iii in {1..2}; do
+    NORMAL
+    #compile depends on whether we want to profile.
+    RUN_SHJ
+    RUN_PMJ
+    let "gp++"
+  done
+done
+
+########################  MULTICORE
+
+thread_test=0
+
+
+epsl_r=0.6
+epsl_s=0.6
+data_u_r=0.6
+data_u_s=0.6
+
+gp=4100
+
+eg_smp=1
+lz_smp=0
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+
+for Threads in 1 2 4 8; do
+  for iii in {1..2}; do
+    NORMAL
+    #compile depends on whether we want to profile.
+    RUN_LAZY_HASH
+    let "gp++"
+  done
+done
+
+# eager MULTICORE
+
+gp=4100
+
+eg_smp=0
+lz_smp=1
+mem_lim=1
+prb_hsh=1
+res_strata=1
+
+set_pr=1
+set_avx_rand=0
+set_correct_p=1
+set_always_probe=1
+
+SAMPLE_WITH_PARA
+
+
+for Threads in 1 2 4 8; do
+  for iii in {1..2}; do
+    NORMAL
+    #compile depends on whether we want to profile.
+    RUN_SHJ
+    RUN_PMJ
+    let "gp++"
+  done
+done
+
+
+thread_test=1
+
+######################################### STREAM FEATURE
+
+
+epsl_r=0.6
+epsl_s=0.6
+data_u_r=0.6
+data_u_s=0.6
 
 gp=5100
 
@@ -1998,7 +2001,9 @@ mem_lim=1
 prb_hsh=1
 res_strata=1
 
+set_pr=1
 set_avx_rand=0
+set_correct_p=1
 set_always_probe=1
 
 SAMPLE_WITH_PARA
@@ -2015,84 +2020,12 @@ mem_lim=1
 prb_hsh=1
 res_strata=1
 
+set_pr=1
 set_avx_rand=0
+set_correct_p=1
 set_always_probe=1
 
 SAMPLE_WITH_PARA
 
-STREAM_RUN_SHJ
+# STREAM_RUN_SHJ
 STREAM_RUN_PMJ
-
-# reservoir STREAM
-
-gp=5200
-
-epsl_r=0.5
-epsl_s=0.5
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-STREAM_RUN_SHJ
-
-
-# Prior STREAM
-
-gp=5900
-
-eg_smp=1
-lz_smp=1
-mem_lim=1
-prb_hsh=0
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=1
-
-SAMPLE_WITH_PARA
-
-STREAM_RUN_SHJ
-
-# eager MIXIMUM DATA UTILIZATION STREAM
-
-gp=5300
-
-eg_smp=0
-lz_smp=1
-mem_lim=1
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-STREAM_RUN_SHJ
-
-
-# reservoir MIXIMUM DATA UTILIZATION STREAM
-
-gp=5400
-
-eg_smp=1
-lz_smp=1
-mem_lim=0
-prb_hsh=1
-res_strata=1
-
-set_avx_rand=0
-set_always_probe=0
-
-SAMPLE_WITH_PARA
-
-STREAM_RUN_SHJ
-
-
