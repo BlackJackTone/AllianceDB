@@ -1,6 +1,6 @@
-# Bi-Probe
+# FreeSam
 
-We implement Bi-Probe and other approaches for comparison here.
+We implement FreeSam and other approaches for comparison here.
 The experimental environment is shown in the table below.
 
 |Component | Description |
@@ -12,9 +12,9 @@ The experimental environment is shown in the table below.
 |OS | Linux 5.11.0 |
 |Compiler | g++ -O3 |
 
-For the datasets, you can fetch them at [https://anonymous.4open.science/r/BiProbeRealWorldData-CA52](https://anonymous.4open.science/r/BiProbeRealWorldData-CA52).
+For the datasets, you can fetch them at [https://anonymous.4open.science/r/FreeSamData-2F14/](https://anonymous.4open.science/r/FreeSamData-2F14/).
 
-For the appendix, you can fetch it at [https://anonymous.4open.science/r/BiProbeAppendix-2484](https://anonymous.4open.science/r/BiProbeAppendix-2484).
+For the appendix, you can fetch it at [https://anonymous.4open.science/r/FreeSamAppendix-0D77](https://anonymous.4open.science/r/FreeSamAppendix-0D77).
 
 To run the code, please first determine the experiment directory (denoted by `exp_dir`) and L3 cache size in `./run_all.sh` as well as the mapping of your intel cpu in `./cpu-mapping.txt`. Note that the directory of the datasets should match the experiment directory you set.
 
